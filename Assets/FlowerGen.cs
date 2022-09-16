@@ -46,7 +46,7 @@ public class FlowerGen : MonoBehaviour
     private void Update()
     {
         nFlowerVertices = nFlowerSegments * 2 + 2;
-        GenFlowerMesh();
+        //GenFlowerMesh();
         GenStemMesh();
     }
 
@@ -61,8 +61,7 @@ public class FlowerGen : MonoBehaviour
 
     private Vector3[] GenStemVertices()
     {
-
-        Vector3[] vertices = new Vector3[nStemSegments * 8 - 4];
+        Vector3[] vertices = new Vector3[nStemSegments * 4 + 4];
 
         float y = 0;
 
@@ -84,7 +83,7 @@ public class FlowerGen : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Vector3[] vertices = new Vector3[nStemSegments * 8 - 4];
+        Vector3[] vertices = new Vector3[nStemSegments * 4 + 4];
 
         float y = 0;
 
@@ -111,17 +110,35 @@ public class FlowerGen : MonoBehaviour
 
     private int[] GenStemIndeces()
     {
-        int[] indices = new int[6 * 4 * nFlowerSegments];
+        // 2 triangles per plane, 4 planes per segment.
+        int[] indices = new int[6 * 4 * nStemSegments];
 
         int currentIndex = 0;
-        for (int i = 0; i < indices.Length - 4; i += 1)
+        int currentFace = 0;
+        for (int vertexIndex = 0; vertexIndex < nStemSegments * 4; vertexIndex += 1)
         {
-            indices[currentIndex++] = i;
-            indices[currentIndex++] = i + 4;
-            indices[currentIndex++] = i + 1;
-            indices[currentIndex++] = i + 4;
-            indices[currentIndex++] = i + 5;
-            indices[currentIndex++] = i + 1;
+
+            if (currentFace % 4 != 3)
+            {
+                // Case for first three faces of segment
+                indices[currentIndex++] = vertexIndex;
+                indices[currentIndex++] = vertexIndex + 4;
+                indices[currentIndex++] = vertexIndex + 1;
+                indices[currentIndex++] = vertexIndex + 4;
+                indices[currentIndex++] = vertexIndex + 5;
+                indices[currentIndex++] = vertexIndex + 1;
+            }
+            else
+            {
+                // Special case for last face to avoid array overflow
+                indices[currentIndex++] = vertexIndex;
+                indices[currentIndex++] = vertexIndex + 4;
+                indices[currentIndex++] = vertexIndex - 3;
+                indices[currentIndex++] = vertexIndex + 4;
+                indices[currentIndex++] = vertexIndex + 1;
+                indices[currentIndex++] = vertexIndex - 3;
+            }
+            currentFace++;
         }
 
         return indices;

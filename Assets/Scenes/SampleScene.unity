@@ -403,5 +403,5 @@ MonoBehaviour:
   yStepFlower: 0.1
   flowerOffset: {x: 0.25, y: 0, z: 0.1}
   yStepStem: 0.25
-  nStemSegments: 1
+  nStemSegments: 2
   stemOffset: {x: 0.25, y: 0, z: 0.25}
