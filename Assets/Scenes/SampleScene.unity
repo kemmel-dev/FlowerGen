@@ -398,10 +398,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nFlowerSegments: 300
-  alfa: 137.5
+  alfa: 137
   scale: 1
   yStepFlower: 0.1
-  flowerOffset: {x: 0.1, y: 0, z: 0}
+  flowerOffset: {x: 0.25, y: 0, z: 0.1}
   yStepStem: 0.25
-  nStemSegments: 2
+  nStemSegments: 1
   stemOffset: {x: 0.25, y: 0, z: 0.25}

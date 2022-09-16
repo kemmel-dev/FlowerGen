@@ -78,7 +78,6 @@ public class FlowerGen : MonoBehaviour
 
         foreach (Vector3 vector in vertices)
         {
-            Debug.Log(vector);
         }
         return vertices;
     }
@@ -106,14 +105,26 @@ public class FlowerGen : MonoBehaviour
         foreach (Vector3 vector in vertices)
         {
             Gizmos.color = colors[j++ % colors.Length];
-            Debug.Log(j % colors.Length);
             Gizmos.DrawWireSphere(vector, 0.01f);
         }
     }
 
     private int[] GenStemIndeces()
     {
-        throw new NotImplementedException();
+        int[] indices = new int[6 * 4 * nFlowerSegments];
+
+        int currentIndex = 0;
+        for (int i = 0; i < indices.Length - 4; i += 1)
+        {
+            indices[currentIndex++] = i;
+            indices[currentIndex++] = i + 4;
+            indices[currentIndex++] = i + 1;
+            indices[currentIndex++] = i + 4;
+            indices[currentIndex++] = i + 5;
+            indices[currentIndex++] = i + 1;
+        }
+
+        return indices;
     }
 
 
@@ -125,6 +136,8 @@ public class FlowerGen : MonoBehaviour
 
         flower.vertices = vertices;
         flower.triangles = indices;
+
+
         FlipFlowerNormals();
     }
 
